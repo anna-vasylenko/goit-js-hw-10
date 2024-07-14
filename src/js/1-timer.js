@@ -14,18 +14,22 @@ const refs = {
 
 let userSelectedDate;
 refs.startButtonEl.setAttribute('disabled', true);
+// refs.dateTimePickerEl.setAttribute('disabled', true);
 
 const options = {
   enableTime: true,
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
+
   onClose(selectedDates) {
     if (selectedDates[0] < new Date()) {
       iziToast.show({
         message: 'Please choose a date in the future',
         position: 'topRight',
         backgroundColor: '#EF4040',
+        messageColor: '#fff',
+        progressBarColor: '#fff',
       });
     } else {
       refs.startButtonEl.removeAttribute('disabled');
@@ -41,8 +45,6 @@ const timer = {
 
   start() {
     refs.startButtonEl.setAttribute('disabled', true);
-
-    // if (!userSelectedDate) return;
 
     this.intervalId = setInterval(() => {
       const currentDate = new Date();

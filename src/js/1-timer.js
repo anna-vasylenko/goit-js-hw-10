@@ -14,7 +14,6 @@ const refs = {
 
 let userSelectedDate;
 refs.startButtonEl.setAttribute('disabled', true);
-// refs.dateTimePickerEl.setAttribute('disabled', true);
 
 const options = {
   enableTime: true,
@@ -24,6 +23,7 @@ const options = {
 
   onClose(selectedDates) {
     if (selectedDates[0] < new Date()) {
+      refs.startButtonEl.setAttribute('disabled', true);
       iziToast.show({
         message: 'Please choose a date in the future',
         position: 'topRight',
@@ -40,37 +40,37 @@ const options = {
 
 flatpickr('#datetime-picker', options);
 
-const timer = {
-  intervalId: null,
-
-  start() {
+function onBtnTimerStart() {
+  if (userSelectedDate < new Date()) {
     refs.startButtonEl.setAttribute('disabled', true);
+    return;
+  }
+  refs.startButtonEl.setAttribute('disabled', true);
+  refs.dateTimePickerEl.setAttribute('disabled', true);
 
-    this.intervalId = setInterval(() => {
-      const currentDate = new Date();
-      const ms = userSelectedDate - currentDate;
-      if (ms < 1000) this.stop();
-      renderTime(ms);
-    }, 1000);
-  },
+  const intervalId = setInterval(() => {
+    const currentDate = new Date();
+    const ms = userSelectedDate - currentDate;
 
-  stop() {
-    clearInterval(this.intervalId);
-  },
-};
+    if (ms < 1000) {
+      clearInterval(intervalId);
+      refs.dateTimePickerEl.removeAttribute('disabled');
+    }
 
-refs.startButtonEl.addEventListener('click', () => {
-  timer.start();
-});
+    renderTime(ms);
+  }, 1000);
+}
+
+refs.startButtonEl.addEventListener('click', onBtnTimerStart);
 
 function renderTime(ms) {
   const parsedTime = convertMs(ms);
-  const timeWithZero = addLeadingZero(parsedTime);
-  const { d, h, m, s } = timeWithZero;
-  refs.daysSpanEl.textContent = d;
-  refs.hoursSpanEl.textContent = h;
-  refs.minutesSpanEl.textContent = m;
-  refs.secondsSpanEl.textContent = s;
+  const { days, hours, minutes, seconds } = parsedTime;
+
+  refs.daysSpanEl.textContent = days.toString().padStart(2, '0');
+  refs.hoursSpanEl.textContent = hours.toString().padStart(2, '0');
+  refs.minutesSpanEl.textContent = minutes.toString().padStart(2, '0');
+  refs.secondsSpanEl.textContent = seconds.toString().padStart(2, '0');
 }
 
 function convertMs(ms) {
@@ -84,13 +84,4 @@ function convertMs(ms) {
   const minutes = Math.floor(((ms % day) % hour) / minute);
   const seconds = Math.floor((((ms % day) % hour) % minute) / second);
   return { days, hours, minutes, seconds };
-}
-
-function addLeadingZero(parsedTime) {
-  const { days, hours, minutes, seconds } = parsedTime;
-  const d = days.toString().padStart(2, '0');
-  const h = hours.toString().padStart(2, '0');
-  const m = minutes.toString().padStart(2, '0');
-  const s = seconds.toString().padStart(2, '0');
-  return { d, h, m, s };
 }

@@ -25,6 +25,7 @@
 body {
   box-sizing: border-box;
 }
+
 .input-date {
   display: flex;
   gap: 8px;
@@ -114,4 +115,79 @@ button:disabled:hover {
   line-height: 1.5;
   color: #2e2f42;
   text-transform: uppercase;
+}
+
+form label {
+  display: block;
+  margin-bottom: 16px;
+}
+
+.form input {
+  box-sizing: border-box;
+  display: block;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  color: #2e2f42;
+  border-radius: 4px;
+  width: 360px;
+  padding: 8px 16px;
+}
+
+form input:hover,
+fieldset:hover {
+  border: 1px solid #000;
+}
+
+form input:active,
+form input:focus,
+fieldset:active,
+fieldset:focus {
+  border: 1px solid #4e75ff;
+}
+
+fieldset {
+  box-sizing: border-box;
+  width: 360px;
+  height: 78px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  margin-bottom: 24px;
+  border-radius: 4px;
+  outline: none;
+  border: 1px solid #808080;
+}
+
+legend {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  color: #2e2f42;
+}
+fieldset label {
+  display: flex;
+  width: 104px;
+}
+
+fieldset input {
+  border: 1px solid #000;
+  border-radius: 14px;
+  width: 20px;
+  height: 20px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #2e2f42;
+  text-align: center;
+}
+
+form button {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  width: 360px;
 }

@@ -168,9 +168,10 @@ legend {
   letter-spacing: 0.04em;
   color: #2e2f42;
 }
-fieldset label {
+fieldset > label {
   display: flex;
   width: 104px;
+  height: 32px;
 }
 
 fieldset input {
